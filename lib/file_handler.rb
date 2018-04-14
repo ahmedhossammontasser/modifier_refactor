@@ -1,11 +1,15 @@
 require 'csv'
 require 'date'
 
+# input:
+# - files path 
+# output:
+# - parse file, sort file by columns name
+# - get the file with the recent date (using regular expression) and create new file with the updated and editted values 
 class FileHandler	
 	LINES_PER_FILE = 120000
 	DEFAULT_CSV_OPTIONS_READ = { :col_sep => "\t", :headers => :first_row }
 	DEFAULT_CSV_OPTIONS_WRITE = { :col_sep => "\t", :headers => :first_row, :row_sep => "\r\n" }
-
 
 	def self.latest(name)
 		files = Dir["#{name}*.txt"]
@@ -18,9 +22,14 @@ class FileHandler
 	end
 
 
-	def self.sort(file , sort_by_column)
-		output = "#{file}.sorted"
-		content_as_table = parse(file)
+	# input:
+	# - file_name = path to the input file
+	# - sort_by_column = string reprsented which column will be used to sort the file 
+	# output:
+	# - csv file sorted by sort_by_column Column
+	def self.sort(file_name , sort_by_column)
+		output = "#{file_name}.sorted"
+		content_as_table = parse(file_name)
 		headers = content_as_table.headers
 		index_of_key = headers.index(sort_by_column)
 		content = content_as_table.sort_by { |a| -a[index_of_key].to_i }

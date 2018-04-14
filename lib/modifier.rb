@@ -2,6 +2,11 @@ require File.expand_path('combiner',File.dirname(__FILE__))
 require 'string'
 require 'float'
 
+# input:
+# - fiels paths , saleamount_factor, cancellation_factor
+# output:
+# - modify the values of the inputs files with base on the input entered by the user
+
 class Modifier
 
 	KEYWORD_UNIQUE_ID = 'Keyword Unique ID'
