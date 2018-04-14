@@ -1,4 +1,6 @@
-require File.expand_path('lib/combiner',File.dirname(__FILE__))
+require File.expand_path('combiner',File.dirname(__FILE__))
+require 'string'
+require 'float'
 
 class Modifier
 
@@ -46,36 +48,43 @@ class Modifier
 
 		def combine_values(hash)
 			LAST_VALUE_WINS.each do |key|
-				hash[key] = hash[key].last
+				if hash.key?(key)
+					hash[key] = hash[key].last
+				end
 			end
 			LAST_REAL_VALUE_WINS.each do |key|
-				hash[key] = hash[key].select {|v| not (v.nil? or v == 0 or v == '0' or v == '')}.last
+				if hash.key?(key)
+					hash[key] = hash[key].select {|v| not (v.nil? or v == 0 or v == '0' or v == '')}.last
+				end
 			end
 			INT_VALUES.each do |key|
-				hash[key] = hash[key][0].to_s
+				if hash.key?(key)
+					hash[key] = hash[key][0].to_s
+				end
 			end
 			FLOAT_VALUES.each do |key|
-				hash[key] = hash[key][0].from_german_to_f.to_german_s
+				if hash.key?(key)
+					hash[key] = hash[key][0].from_german_to_f.to_german_s
+				end
 			end
 			NUM_COMMISSIONS.each do |key|
-				hash[key] = (@cancellation_factor * hash[key][0].from_german_to_f).to_german_s
+				if hash.key?(key)
+					hash[key] = (@cancellation_factor * hash[key][0].from_german_to_f).to_german_s
+				end
 			end
 			COMMISSIONS_VALUE.each do |key|
-				hash[key] = (@cancellation_factor * @saleamount_factor * hash[key][0].from_german_to_f).to_german_s
+				if hash.key?(key)
+					hash[key] = (@cancellation_factor * @saleamount_factor * hash[key][0].from_german_to_f).to_german_s
+				end
 			end
 			hash
 		end
 
 		def combine_hashes(list_of_rows)
 			keys = []
-			list_of_rows.each do |row|
-				next if row.nil?
-				row.headers.each do |key|
-					keys << key
-				end
-			end
+			list_of_rows.each {|row| keys << row.headers}
 			result = {}
-			keys.each do |key|
+			keys.flatten.each do |key|
 				result[key] = []
 				list_of_rows.each do |row|
 					result[key] << (row.nil? ? nil : row[key])

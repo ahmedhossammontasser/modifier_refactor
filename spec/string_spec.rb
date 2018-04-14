@@ -17,13 +17,6 @@ describe String do
 				expect { input.from_german_to_f }.to raise_error
 			end
 		end
-
-		context "should raise expection for invalid input multiple , and ." do
-			input = "12,345.0"
-			it "raises" do
-				expect { input.from_german_to_f }.to raise_error
-			end
-		end		
 		
 		context "should raise expection for invalid string input" do
 			input = "12,345.0a"

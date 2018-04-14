@@ -1,0 +1,4 @@
+Keyword Unique ID	Account ID	Account Name	Last Avg CPC	Clicks	Impressions	Avg CPC	CTR	number of commissions	Commission Value
+3	acc#3	an#3	cpc#3	45	150	15,1	15,5	750,05	50,15
+2	acc#2	an#2	cpc#2	20	200	20,2	20,5	1000,05	100,15
+1	acc#1	an#1	cpc#1	10	100	10,1	10,5	1500,05	50,15
